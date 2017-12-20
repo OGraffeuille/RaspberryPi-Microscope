@@ -1,5 +1,5 @@
 # CameraPython
-## 	This folder contains Python code to control the Raspberry Pi camera module.
+This folder contains Python code to control the Raspberry Pi camera module.
 
 ## Table of contents									
 ### - Description of Files								
