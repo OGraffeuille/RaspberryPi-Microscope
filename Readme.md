@@ -1,23 +1,18 @@
-#########################################################
-# 														#
-# CameraPython											#
-# 	This folder contains Python code to control the 	#
-# 	Raspberry Pi camera module.							#
-#														#
-# Table of contents										#
-# - Description of Files								#
-# - Running: from remote computer with a GUI			#
-# - Running: from remote computer with command-line		#
-# - Running: from Raspberry Pi							#
-# - BackGroundSubbThread C++ Code						#
-# - Installation: Raspberry Pi							#
-# - Installation: Remote Computer						#
-# - Installation: Subtraction							#
-#														#
-#########################################################
+# CameraPython
+## 	This folder contains Python code to control the Raspberry Pi camera module.
+
+## Table of contents									
+### - Description of Files								
+### - Running: from remote computer with a GUI			
+### - Running: from remote computer with command-line	
+### - Running: from Raspberry Pi						
+### - BackGroundSubbThread C++ Code						
+### - Installation: Raspberry Pi						
+### - Installation: Remote Computer					
+### - Installation: Subtraction						
 
 
-## Files ##
+## Files
 
 - run-server.sh: A bash script which asks the user for a password and connects to the Raspberry Pi from a remote computer to start the server.
 
@@ -74,7 +69,7 @@ The GUI has five tabs: Capture Image, Record Video, Stream Video, Image Subtract
 
 Each tab (other than help) has a list of camera properties on the left. Changing the properties here will pass them to the microscope, as long as they're within the accepted range. Note that if exposure time is left to 0, the value used will be the duration of one frame, based on the parameter entered for fps.
 
-# Capture Image Tab
+### Capture Image Tab
 
 The capture image tab has three sub-tabs.
 
@@ -94,7 +89,7 @@ Once the image(s) are captured, they will be downloaded into the Images folder, 
 
 The image tab will also display the latest image that has been captured, as well as the filename of this image. Note that .gif images can not be displayed. There are buttons to open up the image in a image editor, delete it, or rename it.
 
-# Record Video Tab
+### Record Video Tab
 
 The image tab lets you record videos. Accepted file types are mp3, mp4, m4v. More can be added at the top of cameraLibClient easily.
 
@@ -104,7 +99,7 @@ The user can enter the video duration (in seconds). Otherwise, they can leave th
 
 Once the camera stops recording, the video will be downloaded into the Videos folder, which must exist in the same directory as the git repository.
 
-# Stream Video Tab
+### Stream Video Tab
 
 The stream tab lets you stream the microscope to VLC.
 
@@ -116,7 +111,7 @@ A stream delay of 1-5 seconds will exist due to the usage of VLC.
 
 The stream can crash if resolution or fps is too high.
 
-# Image Subtraction Tab
+### Image Subtraction Tab
 
 The user can enter the recording duration (in seconds) for the image subtraction. Otherwise, they can leave this box blank and the video will record until the 'stop' button is pressed.
 
@@ -132,7 +127,7 @@ A delay of 1-5 seconds will exist, or longer if fps or resolution is high.
 
 More information about how the image subtraction mode works can be found in the "BackGroundSubbThread C++ Code" section.
 
-# Help Tab
+### Help Tab
 
 The help tab has some explanations to common questions, as well as 5 buttons.
 
@@ -153,7 +148,7 @@ Close microscope
 Closes microscope properly. If you close the client with this button, you only need to run run-client.sh to start the camera again, otherwise you need to re-run the server as well.
 
 
-## Running: from remote computer with command-line ##
+## Running: from remote computer with command-line
 
 The CameraPython code can also be run without a GUI, using command-line instead. First, turn on the Raspberry Pi and connect to the PiNet Wi-Fi network with the remote computer.
 
@@ -239,7 +234,7 @@ If no value is entered, then the property is set to the default value.
 Note that increasing the exposure time may lower the framerate, that increaing the framerate may lower the exposure time.
 
 
-## Running: From Raspberry Pi ##
+## Running: From Raspberry Pi
 
 The CameraPython code can be run directly from the Raspberry Pi.
 On the Raspberry Pi, open a terminal, and run the command:
@@ -256,7 +251,7 @@ The code runs the same way as on a remote computer, but with a few differences:
 - The O command (image subtraction) runs on the Raspberry Pi as opposed to streaming on a remote computer. It runs a lot slower on the Raspberry Pi.
 
 
-## BackGroundSubbThread C++ Code ##
+## BackGroundSubbThread C++ Code
 
 The BackGroundSubbThread code is used for image subtraction.
 It is called within the cameraLibClient library, and may also be called from the bash command-line.
@@ -290,7 +285,7 @@ The timestamped folder is contained in the Images folder.
 Once all image processing is completed, each frame of each video is extracted and stored as separate images.
 
 
-## Installation: Raspberry Pi ##
+## Installation: Raspberry Pi
 
 The code requires the MP4Box package to place the raw video in a container, in order to playback at the correct framerate. This can be installed by:
 
@@ -368,7 +363,7 @@ The crontab file can then be edited to contain the following line:
 	@reboot sh /home/pi/Documents/PhysicsSummer/CameraPython/launcher.sh
 
 
-## Installation: Remote Computer ##
+## Installation: Remote Computer
 
 Streaming video from the camera across the network requires vlc installed in the command-line on the remote computer. On macOS, run:
 
@@ -392,7 +387,7 @@ Alternatively, the camera module can be controlled by remotely connecting to the
 However, remotely running the picamCommand script will not allow video streaming over the network, nor downloading image and video files directly to the remote computer.
 
 
-## Installation: Image subtraction ##
+## Installation: Image subtraction
 
 The C++ code "BackGroundSubbThread.cpp" is used to perform image subtraction on a network stream using OpenCV.
 The network stream requires gstreamer, which must be installed before installing OpenCV.
