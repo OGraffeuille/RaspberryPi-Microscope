@@ -1,0 +1,7 @@
+# Script that runs the client, and opens a new terminal to run server, which will then run the client when server is set up.
+# Ensure that this file has been given executable privileges.
+
+
+
+# Open a new default terminal and execute server script.
+x-terminal-emulator -e "${PWD}/run-server.sh"
