@@ -1,0 +1,18 @@
+#include <Python.h>
+#include <iostream>
+using namespace std;
+
+
+int main(int argc, char* argv[])
+{
+	Py_Initialize();
+
+	PyObject* myModule = PyImport_Import("give");
+
+	PyObject* myFunction = PyObject_GetAttrString(myModule,(char*)"doStuff");
+
+	PyObject* myResult = PyObject_CallObject(myFunction, NULL);
+
+	double result = PyFloat_AsDouble(myResult);
+	cout << "Result is: " << result << endl; 
+}
