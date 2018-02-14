@@ -283,7 +283,7 @@ A video is created every time the number of white pixels exceeds the threshold, 
 Each subsequent frame is added to the video if the number of white pixels also exceeds the threshold.
 The video is closed at the first subsequent frame which doesn't meet the threshold.
 The videos are stored in a folder containing the timestamp that the first video was created at.
-The timestamped folder is contained in the Images folder.
+The timestamped folder is contained in the Subtract folder, in CameraPython. You may need to create this folder.
 Once all image processing is completed, each frame of each video is extracted and stored as separate images.
 
 
@@ -399,7 +399,7 @@ Gstreamer can be installed by running the command:
 	sudo apt-get install libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav
 
 OpenCV must be installed on the remote computer to run the C++ code.
-To install OpenCV, go to http://opencv.org/downloads.html and download OpenCV 3.2.
+To install OpenCV, go to http://opencv.org/downloads.html and download OpenCV 3.2 (source).
 Then, ensure that the following packages are installed:
 
 	sudo apt-get install build-essential libgtk2.0-dev libjpeg-dev libtiff4-dev libjasper-dev libopenexr-dev cmake python-dev python-numpy python-tk libtbb-dev libeigen3-dev yasm libfaac-dev libopencore-amrnb-dev libopencore-amrwb-dev libtheora-dev libvorbis-dev libxvidcore-dev libx264-dev libqt4-dev libqt4-opengl-dev sphinx-common texlive-latex-extra libv4l-dev libdc1394-22-dev libavcodec-dev libavformat-dev libswscale-dev default-jdk ant libvtk5-qt4-dev
@@ -418,6 +418,6 @@ This can be installed through the following command:
 
 	sudo apt-get install libboost-all-dev
 
-If changes are made to the C++ code, the code can be compiled with the following command:
+If changes are made to the C++ code, the code can be compiled with the following command, from a console in the CameraPython folder:
 
 	g++ -std=c++11 BackGroundSubbThread.cpp -o BackGroundSubbThread -I/usr/local/include/opencv2 -L/usr/local/lib -lopencv_core -lopencv_video -lopencv_highgui -lopencv_videoio -lopencv_imgcodecs -lopencv_imgproc -lboost_system -lboost_thread -lboost_filesystem
