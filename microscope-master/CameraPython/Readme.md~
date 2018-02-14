@@ -150,7 +150,7 @@ Closes microscope properly. If you close the client with this button, you only n
 
 The CameraPython code can also be run without a GUI, using command-line instead. First, turn on the Raspberry Pi and connect to the PiNet Wi-Fi network with the remote computer.
 
-Once connected, run run-server.sh in a terminal, and enter "PiPhysics" when prompted with a password. Then, run run-client-cmd.py.
+Once connected, run run-server.sh in a terminal, and enter "PiPhysics" when prompted with a password. Then, run run-client-cli.py.
 
 If that doesn't work, open a terminal and enter the following commands: 
 
