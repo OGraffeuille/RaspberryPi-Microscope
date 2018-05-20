@@ -1,8 +1,0 @@
-#!/bin/sh
-# launcher.sh
-# Launches python camera module server.
-# Called by run-clientGUI.sh and run-clientCMD.sh
-
-cd /home/pi/Documents/PhysicsSummer/CameraPython
-python cameraServerTest.py
-

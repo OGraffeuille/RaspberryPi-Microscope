@@ -1,5 +1,0 @@
-x = 1
-
-def doStuff():
-	y = 2
-	return y
