@@ -26,6 +26,8 @@ current_milli_time = lambda: datetime.utcnow().strftime('%y%m%d-%H%M%S.%f')[:-3]
 
 IMAGE_TYPES = ['jpeg', 'jpg', 'gif', 'bmp'] # png causes crashing, gif isnt supported by ImageTk at the moment due to bug
 VIDEO_TYPES = ['mp3', 'mp4', 'm4v']
+DEFAULT_IMAGE_TYPE = ".jpg"
+DEFAULT_VIDEO_TYPE = ".m4v"
 DEFAULT_DISP_IMG = "Resources/placeholder.bmp"
 THRESH_PERCENT_DEFAULT = "5"
 THRESH_PERCENT_MIN = "0"
@@ -541,8 +543,9 @@ class cameraGUI(Frame):
 		"\n\nThere are two trigger modes:"
 		"\nMode 1 uses the video port. This mode allows images to be taken in rapid succession. However, it is possible that the image is taken before the trigger occurs. This can be fixed by increasing the IMAGE_OFFSET parameter in the cameraLibServer code. Additionally, the resolution cannot exceed 1920x1080 in this mode."
 		"\nMode 2 uses the image port. This mode results in more consistent and higher quality images. However, ~500 ms is required after the capture to process and store the image. Additional images cannot be taken in this period of time."
+		"\n\nSee the Readme file for additional information."
 		)
-		self.hlpmsg = Message(self.hlpframe2, text=descriptions)
+		self.hlpmsg = Message(self.hlpframe2, text=descriptions, width=365)
 		self.hlpmsg.grid(row=1, column=1)
 
 	def dispProperties(self, frame, isVideoTab):
@@ -1290,10 +1293,10 @@ class cameraModuleClient:
 		# Add extension if there is no appropriate extension currently
 		if (param == "Image filename"):
 			if ftype not in IMAGE_TYPES:
-				value += ".jpg"
+				value += DEFAULT_IMAGE_TYPE
 		elif (param == "Video filename"):
-			if ftype in VIDEO_TYPES:
-				value += ".m4v"
+			if ftype not in VIDEO_TYPES:
+				value += DEFAULT_VIDEO_TYPE
 
 		# Send parameter value to Pi
 		self.send_msg(self.client_socket, value)
@@ -1353,8 +1356,8 @@ class cameraModuleClient:
 
 		# Add extension if there is no appropriate extension currently
 		if (param == "Video filename"):
-			if ftype in VIDEO_TYPES:
-				value += ".m4v"
+			if ftype not in VIDEO_TYPES:
+				value += DEFAULT_VIDEO_TYPE
 
 		# Send parameter value to Pi
 		self.send_msg(self.client_socket, value)
@@ -1368,7 +1371,6 @@ class cameraModuleClient:
 				print(YELLOW + confirm + CLEAR)
 
 		return value
-
 
 	def videoGUI(self):
 		'''

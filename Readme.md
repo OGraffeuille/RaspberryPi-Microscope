@@ -1,5 +1,5 @@
 # CameraPython
-This folder contains Python code to control the Raspberry Pi camera module.
+## 	This folder contains Python code to control the Raspberry Pi camera module.
 
 ## Table of contents									
 ### - Description of Files								
@@ -52,13 +52,11 @@ The CameraPython code can be run from a remote computer with a GUI. First, turn 
 Once connected, run run-server.sh in a terminal, and enter "PiPhysics" when prompted with a password. Then, run run-client-gui.py.
 
 If that doesn't work, open a terminal and enter the following commands: 
-
 	ssh pi@192.168.1.1
 	cd Documents/PhysicsSummer/CameraPython
 	python cameraServerTest.py
 
 If prompted for a password, enter "PiPhysics". Then open a new terminal, and enter the following commands:
-
 	cd Documents/Python/Olivier/microscope-master/CameraPython
 	python cameraClientGUI.py
 
@@ -67,7 +65,7 @@ If you were successful, a GUI window should appear after a few seconds.
 
 The GUI has five tabs: Capture Image, Record Video, Stream Video, Image Subtraction and Help.
 
-Each tab (other than help) has a list of camera properties on the left. Changing the properties here will pass them to the microscope, as long as they're within the accepted range. Note that if exposure time is left to 0, the value used will be the duration of one frame, based on the parameter entered for fps.
+Each tab (other than help) has a list of camera properties on the left. Changing the properties here will pass them to the microscope, as long as they're within the accepted range. Note that if exposure time is left to 0, the value used will be the duration of one frame, based on the framerate parameter.
 
 ### Capture Image Tab
 
@@ -85,13 +83,13 @@ The third tab is trigger mode 2.
 Mode 2 uses the image port. This mode results in more consistent and higher quality images. 
 However, ~500 ms is required after the capture to process and store the image. Additional images cannot be taken in this period of time.
 
-Once the image(s) are captured, they will be downloaded into the Images folder, which must exist in the same directory as the git repository.
+Once the image(s) are captured, they will be downloaded into the Images folder, which must exist in the same directory server launch script.
 
-The image tab will also display the latest image that has been captured, as well as the filename of this image. Note that .gif images can not be displayed. There are buttons to open up the image in a image editor, delete it, or rename it.
+The image tab will also display the latest image that has been captured, as well as the filename of this image. Note that .gif images can not be displayed. There are buttons to open up the image in a default image editor, delete it, or rename it.
 
 ### Record Video Tab
 
-The image tab lets you record videos. Accepted file types are mp3, mp4, m4v. More can be added at the top of cameraLibClient easily.
+The image tab lets you record videos. Accepted file types are mp3, mp4, m4v. More can be added at the top of the cameraLibClient.py script easily, by adding to the IMAGE_TYPES array.
 
 A timestamp is used as a default filename if none is given. The default file extension is m4v.
 
@@ -109,7 +107,7 @@ Pressing the start button opens VLC and starts the stream.
 
 A stream delay of 1-5 seconds will exist due to the usage of VLC.
 
-The stream can crash if resolution or fps is too high.
+The stream can crash if resolution and/or fps is too high.
 
 ### Image Subtraction Tab
 
@@ -123,7 +121,7 @@ If no background is entered, then the each video frame will be subtracted by pre
 
 There are also two boxes to change the threshold magnitude and threshold percentage parameters.
 
-A delay of 1-5 seconds will exist, or longer if fps or resolution is high.
+A delay of 1-5 seconds will exist, or longer if fps and/or resolution is high.
 
 More information about how the image subtraction mode works can be found in the "BackGroundSubbThread C++ Code" section.
 
@@ -132,7 +130,7 @@ More information about how the image subtraction mode works can be found in the 
 The help tab has some explanations to common questions, as well as 5 buttons.
 
 Restore parameter defaults
-Restore parameter values to default ones set by the Raspberry Pi, the same ones that are loaded when microscope is turned on.
+Restore parameter values to default ones set by the Raspberry Pi, ie the ones that are loaded when microscope is turned on.
 
 Save current parameters
 Creates a save file in the Saves folder, which must exist in the same directory as the git repository. This file will use the name set in the text box, or use a default name if the box is left empty. 
@@ -145,14 +143,14 @@ Display parameter window
 Opens a window that displays the current microscope parameters, but with appropriate units.
 
 Close microscope
-Closes microscope properly. If you close the client with this button, you only need to run run-client.sh to start the camera again, otherwise you need to re-run the server as well.
+Closes microscope properly. If you close the client with this button, you only need to run a run-client script to start the camera again, otherwise you need to re-run the server as well.
 
 
 ## Running: from remote computer with command-line
 
 The CameraPython code can also be run without a GUI, using command-line instead. First, turn on the Raspberry Pi and connect to the PiNet Wi-Fi network with the remote computer.
 
-Once connected, run run-server.sh in a terminal, and enter "PiPhysics" when prompted with a password. Then, run run-client-cmd.py.
+Once connected, run run-server.sh in a terminal, and enter "PiPhysics" when prompted with a password. Then, run run-client-cli.py.
 
 If that doesn't work, open a terminal and enter the following commands: 
 
@@ -255,7 +253,7 @@ The code runs the same way as on a remote computer, but with a few differences:
 
 The BackGroundSubbThread code is used for image subtraction.
 It is called within the cameraLibClient library, and may also be called from the bash command-line.
-To perform background subtraction on a video file, run the command (and remove the brackets):
+To perform background subtraction on a video file by command-line, run the command (and remove the brackets):
 
 	./BackGroundSubbThread -vid <Video filename> thresh_p thresh_m
 
@@ -271,9 +269,13 @@ A delay will normally occur if frames are being saved, if the resolution exceeds
 
 Each background subtraction iteration produces a foreground mask.
 The foreground mask contains a black and white image, where white pixels indicate changes between frames.
-If no background image is used, the last HISTORY frames are used to test for change. This variable can be changed by editting BackGroundSubbThread.cpp and re-compiling it with the instructions in Installation: Image subtraction.
-A pixel is white when the difference in the pixel between frames is greater than the threshold magnitude, thresh_m.
+If a background image is used, the difference between this background and the current video stream is found.
+If no background image is used, the last x recorded stream frames are used to test for change. This number of frames can be changed by editting the value of the HISTORY variable in BackGroundSubbThread.cpp and re-compiling it with the instructions in Installation: Image subtraction.
+
+In the foreground mask image, a pixel is white when the difference in the pixel between frames is greater than the threshold magnitude, thresh_m.
+
 If the number of white pixels in a frame exceeds a percentage threshold, thresh_p, then that frame will be saved.
+
 Both the frame and the foreground mask is saved.
 In addition, the first 100 frames are not saved, as the stream often appears green at startup. This number can be changed similarly to the HISTORY variable.
 
@@ -281,7 +283,7 @@ A video is created every time the number of white pixels exceeds the threshold, 
 Each subsequent frame is added to the video if the number of white pixels also exceeds the threshold.
 The video is closed at the first subsequent frame which doesn't meet the threshold.
 The videos are stored in a folder containing the timestamp that the first video was created at.
-The timestamped folder is contained in the Images folder.
+The timestamped folder is contained in the Subtract folder, in CameraPython. You may need to create this folder.
 Once all image processing is completed, each frame of each video is extracted and stored as separate images.
 
 
@@ -397,7 +399,7 @@ Gstreamer can be installed by running the command:
 	sudo apt-get install libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav
 
 OpenCV must be installed on the remote computer to run the C++ code.
-To install OpenCV, go to http://opencv.org/downloads.html and download OpenCV 3.2.
+To install OpenCV, go to http://opencv.org/downloads.html and download OpenCV 3.2 (source).
 Then, ensure that the following packages are installed:
 
 	sudo apt-get install build-essential libgtk2.0-dev libjpeg-dev libtiff4-dev libjasper-dev libopenexr-dev cmake python-dev python-numpy python-tk libtbb-dev libeigen3-dev yasm libfaac-dev libopencore-amrnb-dev libopencore-amrwb-dev libtheora-dev libvorbis-dev libxvidcore-dev libx264-dev libqt4-dev libqt4-opengl-dev sphinx-common texlive-latex-extra libv4l-dev libdc1394-22-dev libavcodec-dev libavformat-dev libswscale-dev default-jdk ant libvtk5-qt4-dev
@@ -416,7 +418,6 @@ This can be installed through the following command:
 
 	sudo apt-get install libboost-all-dev
 
-If changes are made to the C++ code, the code can be compiled with the following command:
+If changes are made to the C++ code, the code can be compiled with the following command, from a console in the CameraPython folder:
 
 	g++ -std=c++11 BackGroundSubbThread.cpp -o BackGroundSubbThread -I/usr/local/include/opencv2 -L/usr/local/lib -lopencv_core -lopencv_video -lopencv_highgui -lopencv_videoio -lopencv_imgcodecs -lopencv_imgproc -lboost_system -lboost_thread -lboost_filesystem
-
