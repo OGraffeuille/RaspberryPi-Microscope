@@ -1,5 +1,8 @@
 # CameraPython
-## 	This folder contains Python code to control the Raspberry Pi camera module.
+
+This folder contains Python and C++ code to control a Raspberry Pi camera module.
+
+My work during this project consisted of completing an interface to allow for control of a Raspberry Pi camera module. This is the software component of a laboratory setup used to detect and record movement through a microscope, with aims of counting bacteria using fluorescence. This work was a continuation of the work carried out by Damon Hutley, who completed a summer research scholarship in 2016/2017.
 
 ## Table of contents									
 ### - Description of Files								
